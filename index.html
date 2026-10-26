@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudentAI — Performance & Career Hub</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><span class="brand-mark">S</span><span>StudentAI<small>Performance & Career Hub</small></span></div>
+      <nav>
+        <button class="nav-item active" data-page="dashboard">▦ <span>Dashboard</span></button>
+        <button class="nav-item" data-page="predict">◈ <span>Performance Prediction</span></button>
+        <button class="nav-item" data-page="resume">▤ <span>Resume Analyzer</span></button>
+        <button class="nav-item" data-page="jobs">⌕ <span>Job Recommendations</span></button>
+        <button class="nav-item" data-page="history">◷ <span>Prediction History</span></button>
+        <button class="nav-item" data-page="profile">⚙ <span>Profile & Settings</span></button>
+      </nav>
+      <div class="sidebar-bottom"><div class="avatar">ST</div><div><strong>Student User</strong><small>AI & Data Science</small></div><button id="logoutBtn" class="icon-btn" title="Sign out">↗</button></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">☰</button>
+        <div><p class="eyebrow">STUDENT WORKSPACE</p><h1 id="pageTitle">Dashboard</h1></div>
+        <div class="top-actions"><span class="status-pill"><i></i> Supabase-ready</span><button class="avatar small-avatar" id="profileShortcut">ST</button></div>
+      </header>
+
+      <section class="page active" id="page-dashboard">
+        <div class="welcome-card"><div><p class="eyebrow light">YOUR LEARNING JOURNEY</p><h2>Build skills. Track progress.<br/>Prepare for your future.</h2><p>Understand your academic performance and discover career paths that fit your skills.</p><button class="btn btn-light" data-goto="predict">Predict my performance <span>→</span></button></div><div class="welcome-art"><div class="orb">✦</div><div class="art-card"><span>Learning progress</span><strong>Keep growing</strong><div class="mini-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Latest predicted score</span><span class="stat-icon blue">◈</span></div><strong id="statScore">—</strong><small id="statScoreNote">Run your first prediction</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Predictions saved</span><span class="stat-icon purple">◷</span></div><strong id="statPredictions">0</strong><small>Stored in your account</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Resume skill coverage</span><span class="stat-icon teal">▤</span></div><strong id="statSkills">—</strong><small>Analyze a resume to begin</small></article>
+        </div>
+        <div class="content-grid"><article class="panel"><div class="panel-heading"><div><h3>Academic overview</h3><p>Your recent prediction scores</p></div><button class="text-btn" data-goto="history">View history →</button></div><div class="chart-area"><div class="chart-y"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div><div class="chart" id="scoreChart"><div class="empty-chart">Your saved predictions will appear here.</div></div></div><div class="chart-legend"><span><i class="legend-dot"></i> Estimated final score</span></div></article>
+        <article class="panel"><div class="panel-heading"><div><h3>Quick actions</h3><p>Continue your journey</p></div></div><div class="quick-list"><button data-goto="predict"><span class="quick-icon blue">◈</span><span><strong>Predict performance</strong><small>Estimate your final score</small></span><b>→</b></button><button data-goto="resume"><span class="quick-icon purple">▤</span><span><strong>Analyze resume</strong><small>Review skills and projects</small></span><b>→</b></button><button data-goto="jobs"><span class="quick-icon teal">⌕</span><span><strong>Explore job matches</strong><small>Find suitable sample roles</small></span><b>→</b></button></div></article></div>
+        <div class="notice"><span>ⓘ</span><p><strong>About predictions</strong><br/>Scores are estimates based on the configured model or baseline. They are not guarantees of academic results.</p></div>
+      </section>
+
+      <section class="page" id="page-predict">
+        <div class="page-intro"><p>ACADEMIC ANALYTICS</p><h2>Student performance prediction</h2><span>Enter your current academic details to estimate a final score and get improvement suggestions.</span></div>
+        <div class="content-grid form-layout"><article class="panel"><div class="panel-heading"><div><h3>Student details</h3><p>All percentages should be between 0 and 100.</p></div></div>
+          <form id="predictionForm" class="form-grid">
+            <label class="full">Student name or identifier<input name="student_identifier" required maxlength="100" placeholder="e.g. Student 001"/></label>
+            <label>Attendance (%)<input name="attendance" type="number" min="0" max="100" step=".1" required placeholder="85"/></label>
+            <label>Previous exam marks (%)<input name="previous_marks" type="number" min="0" max="100" step=".1" required placeholder="72"/></label>
+            <label>Assignment average (%)<input name="assignment_average" type="number" min="0" max="100" step=".1" required placeholder="80"/></label>
+            <label>Internal exam marks (%)<input name="internal_marks" type="number" min="0" max="100" step=".1" required placeholder="75"/></label>
+            <label>Weekly study hours<input name="weekly_study_hours" type="number" min="0" max="100" step=".5" required placeholder="12"/></label>
+            <label>Completed assignments<input name="completed_assignments" type="number" min="0" max="100" step="1" required placeholder="8"/></label>
+            <div class="full form-foot"><span>🔒 Your prediction is saved privately to your account when Supabase is configured.</span><button class="btn btn-primary" type="submit" id="predictBtn">Generate prediction <span>→</span></button></div>
+          </form>
+        </article><article class="panel result-panel"><div class="panel-heading"><div><h3>Prediction result</h3><p>Results will appear here</p></div></div><div id="predictionResult" class="result-empty"><div class="result-symbol">◈</div><strong>Ready when you are</strong><p>Complete the form and generate a prediction to view your estimated score and personalized advice.</p></div></article></div>
+      </section>
+
+      <section class="page" id="page-resume">
+        <div class="page-intro"><p>CAREER READINESS</p><h2>Resume analyzer</h2><span>Upload a PDF resume to review extracted skills and identify areas to improve.</span></div>
+        <div class="content-grid form-layout"><article class="panel"><div class="panel-heading"><div><h3>Upload your resume</h3><p>PDF format · maximum 5 MB · analysis is performed in your browser in this starter.</p></div></div><form id="resumeForm"><label class="upload-zone" for="resumeFile"><span class="upload-icon">↑</span><strong>Choose a PDF resume</strong><small>Click to browse files (PDF, up to 5 MB)</small><input id="resumeFile" type="file" accept="application/pdf,.pdf" required/><span id="fileName" class="file-name">No file selected</span></label><label class="full">Target role<select id="targetRole"><option>Data Analyst</option><option>Junior Data Scientist</option><option>Machine Learning Intern</option><option>Python Developer</option><option>Business Intelligence Analyst</option><option>AI/ML Intern</option></select></label><button class="btn btn-primary full" type="submit">Analyze resume →</button></form></article><article class="panel"><div class="panel-heading"><div><h3>Resume insights</h3><p>Extracted details and skill coverage</p></div></div><div id="resumeResult" class="result-empty"><div class="result-symbol purple-symbol">▤</div><strong>Your resume insights</strong><p>After analysis, your extracted skills, matched requirements, missing skills, and recommendations will appear here.</p></div></article></div>
+      </section>
+
+      <section class="page" id="page-jobs">
+        <div class="page-intro"><p>CAREER EXPLORER</p><h2>Job recommendations</h2><span>Explore example roles ranked by skills from your latest resume analysis.</span></div><div class="notice"><span>ⓘ</span><p>These are sample listings for educational demonstration, not verified live vacancies. Match scores depend on your analyzed skills.</p></div><div id="jobsGrid" class="jobs-grid"><div class="panel empty-state">Analyze a resume first to calculate personalized job matches.</div></div>
+      </section>
+
+      <section class="page" id="page-history">
+        <div class="page-intro"><p>YOUR RECORDS</p><h2>Prediction history</h2><span>Review previous estimates saved to your account.</span></div><article class="panel"><div class="panel-heading"><div><h3>Saved predictions</h3><p>Loaded from Supabase when configured</p></div><button class="btn btn-outline" id="refreshHistory">↻ Refresh</button></div><div class="table-wrap"><table><thead><tr><th>Student ID</th><th>Estimated score</th><th>Category</th><th>Date</th></tr></thead><tbody id="historyBody"><tr><td colspan="4" class="table-empty">No predictions loaded yet.</td></tr></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="page-profile">
+        <div class="page-intro"><p>ACCOUNT</p><h2>Profile & settings</h2><span>Configure your Supabase connection and account preferences.</span></div><div class="content-grid form-layout"><article class="panel"><div class="panel-heading"><div><h3>Supabase setup</h3><p>Connect your own Supabase project.</p></div></div><form id="settingsForm"><label class="full">Supabase project URL<input id="supabaseUrl" type="url" placeholder="https://your-project.supabase.co"/></label><label class="full">Supabase publishable/anon key<input id="supabaseKey" type="password" placeholder="sb_publishable_… or legacy anon key" autocomplete="off"/></label><div class="notice full"><span>⚠</span><p>Only use the public publishable/anon key in frontend code. Never put a service-role key in the browser. Configure Row Level Security (RLS) using the included SQL file.</p></div><button class="btn btn-primary full" type="submit">Save connection on this device</button></form><p class="helper-text">Connection settings are stored in this browser's local storage. Do not use shared/public devices for this setup.</p></article><article class="panel"><div class="panel-heading"><div><h3>Project information</h3><p>StudentAI starter build</p></div></div><div class="info-list"><div><span>Frontend</span><strong>HTML · CSS · JavaScript</strong></div><div><span>Backend / Database</span><strong>Supabase (Postgres + Auth)</strong></div><div><span>Prediction</span><strong>Transparent baseline formula</strong></div><div><span>Resume extraction</span><strong>Browser text extraction starter</strong></div></div><div class="notice"><span>ⓘ</span><p>This starter does not include Python/FastAPI ML training or server-side PDF extraction. Those can be added as a separate backend service.</p></div></article></div>
+      </section>
+
+      <section class="page" id="page-about"><div class="page-intro"><p>PROJECT OVERVIEW</p><h2>About StudentAI</h2><span>A beginner-friendly academic analytics and career-readiness project.</span></div><div class="about-grid"><article class="panel"><span class="about-icon blue">◈</span><h3>Academic prediction</h3><p>Uses attendance, previous marks, assignments, internal marks, study hours, and completed assignments to calculate a clearly labelled baseline estimate.</p></article><article class="panel"><span class="about-icon purple">▤</span><h3>Resume analysis</h3><p>Extracts readable PDF text in the browser and uses transparent keyword rules to identify skills and resume sections.</p></article><article class="panel"><span class="about-icon teal">⌕</span><h3>Job matching</h3><p>Compares extracted skills against example role requirements, showing matched skills and gaps.</p></article></div><article class="panel"><h3>Important limitations</h3><p>This is a learning starter, not a validated academic decision system. The score formula is a baseline rather than a trained ML model. Browser PDF text extraction can fail on scanned PDFs; OCR and a private server-side extraction pipeline would be needed for those documents. Sample jobs are not live vacancies.</p></article></section>
+
+      <footer>StudentAI · Academic project starter <span>Built for learning and demonstration</span></footer>
+    </main>
+  </div>
+
+  <div id="authModal" class="auth-overlay" hidden>
+    <section class="auth-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+      <button type="button" id="authClose" class="auth-close" aria-label="Close sign in">×</button>
+      <div class="brand auth-brand"><span class="brand-mark">S</span><span>StudentAI<small>Performance & Career Hub</small></span></div>
+      <p class="eyebrow auth-eyebrow">YOUR STUDENT ACCOUNT</p>
+      <h2 id="authTitle">Welcome back</h2>
+      <p id="authSubtitle" class="auth-subtitle">Sign in to save and view your private predictions.</p>
+      <div class="auth-switch"><button type="button" id="showLogin" class="selected">Login</button><button type="button" id="showRegister">Create account</button></div>
+      <form id="authForm" class="auth-form">
+        <label>Email address<input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+        <label>Password<input id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="At least 6 characters" required /></label>
+        <button id="authSubmit" class="btn btn-primary" type="submit">Login →</button>
+      </form>
+      <p class="auth-note">Your account is managed securely by Supabase Authentication.</p>
+    </section>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
